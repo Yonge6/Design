@@ -740,6 +740,48 @@
 
     const seedRecords = [
       {
+        id: "manual-2026-06-04-0300",
+        time: "2026-06-04T03:00:00+08:00",
+        quotes: [
+          {
+            english: "Dreams are the seedlings of realities.",
+            chinese: "梦想是现实的幼苗。",
+            source: "James Allen, As a Man Thinketh"
+          },
+          {
+            english: "Courage is resistance to fear, mastery of fear, not absence of fear.",
+            chinese: "勇气不是没有恐惧，而是抵抗恐惧、驾驭恐惧。",
+            source: "Mark Twain"
+          },
+          {
+            english: "Keep your eyes on the stars, and your feet on the ground.",
+            chinese: "眼望星辰，脚踏实地。",
+            source: "Theodore Roosevelt"
+          }
+        ]
+      },
+      {
+        id: "manual-2026-06-04-0259",
+        time: "2026-06-04T02:59:00+08:00",
+        quotes: [
+          {
+            english: "Life is like riding a bicycle. To keep your balance, you must keep moving.",
+            chinese: "生活就像骑自行车。要保持平衡，你就必须不断前进。",
+            source: "Albert Einstein"
+          },
+          {
+            english: "Carpe diem. Seize the day, boys. Make your lives extraordinary.",
+            chinese: "及时行乐。抓住今天，孩子们。让你们的人生变得非凡。",
+            source: "John Keating, Dead Poets Society"
+          },
+          {
+            english: "The way to get started is to quit talking and begin doing.",
+            chinese: "开始的方法，就是停止空谈，立刻行动。",
+            source: "Walt Disney"
+          }
+        ]
+      },
+      {
         id: "manual-2026-06-03-1855",
         time: "2026-06-03T18:55:00+08:00",
         quotes: [
@@ -802,7 +844,16 @@
     function loadRecords() {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        if (Array.isArray(saved)) return saved;
+        if (Array.isArray(saved)) {
+          const savedIds = new Set(saved.map((record) => record.id));
+          const missingSeedRecords = seedRecords.filter((record) => !savedIds.has(record.id));
+          if (missingSeedRecords.length) {
+            const merged = [...missingSeedRecords, ...saved];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(merged, null, 2));
+            return merged;
+          }
+          return saved;
+        }
       } catch (error) {
         console.warn("Failed to load saved records", error);
       }
