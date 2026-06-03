@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 小时英语句子记录</title>
+  <style>
+    :root {
+      --paper: #f7f1e6;
+      --paper-strong: #fffaf0;
+      --ink: #151515;
+      --muted: #6b6257;
+      --line: rgba(21, 21, 21, 0.16);
+      --green: #2f6d55;
+      --green-dark: #194836;
+      --red: #c85745;
+      --yellow: #efc35a;
+      --blue: #2c5f8a;
+      --shadow: 5px 5px 0 var(--ink);
+      --radius: 8px;
+      --sans: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(21,21,21,0.045) 1px, transparent 1px),
+        linear-gradient(rgba(21,21,21,0.04) 1px, transparent 1px),
+        var(--paper);
+      background-size: 26px 26px;
+      letter-spacing: 0;
+    }
+
+    button, input, textarea {
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 52px;
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .hero,
+    .panel,
+    .record,
+    dialog {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 240, 0.9);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: clamp(22px, 4vw, 38px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      right: -34px;
+      bottom: -38px;
+      width: 180px;
+      height: 140px;
+      background:
+        linear-gradient(135deg, transparent 42%, rgba(47,109,85,0.2) 42% 52%, transparent 52%),
+        linear-gradient(45deg, transparent 40%, rgba(200,87,69,0.18) 40% 50%, transparent 50%);
+      transform: rotate(-8deg);
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 2px solid var(--ink);
+      background: var(--yellow);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 740px;
+      font-family: var(--serif);
+      font-size: clamp(34px, 6vw, 66px);
+      line-height: 0.98;
+      font-weight: 700;
+    }
+
+    .hero p {
+      margin: 16px 0 0;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: white;
+      padding: 12px;
+      min-height: 82px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 6px;
+      font-family: var(--serif);
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn,
+    .icon-btn {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: white;
+      color: var(--ink);
+      box-shadow: 3px 3px 0 var(--ink);
+      cursor: pointer;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+    }
+
+    .btn {
+      min-height: 44px;
+      padding: 0 14px;
+      font-weight: 900;
+    }
+
+    .btn.primary {
+      background: var(--green);
+      color: white;
+    }
+
+    .btn.warn {
+      background: var(--red);
+      color: white;
+    }
+
+    .btn:hover,
+    .icon-btn:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--ink);
+    }
+
+    .btn:active,
+    .icon-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 0 0 0 var(--ink);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 26px 0 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .records {
+      display: grid;
+      gap: 18px;
+    }
+
+    .record {
+      overflow: hidden;
+    }
+
+    .record-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 2px solid var(--ink);
+      background: var(--green);
+      color: white;
+    }
+
+    .record-time {
+      font-weight: 900;
+    }
+
+    .record-count {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 9px;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: var(--yellow);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .quote-list {
+      display: grid;
+      gap: 0;
+    }
+
+    .quote {
+      display: grid;
+      grid-template-columns: 50px minmax(0, 1fr);
+      gap: 12px;
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.55);
+    }
+
+    .quote:last-child { border-bottom: 0; }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      line-height: 1;
+      background: var(--yellow);
+    }
+
+    .icon-btn.stop {
+      background: var(--red);
+      color: white;
+    }
+
+    .english {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.36;
+    }
+
+    .translation {
+      margin: 8px 0 0;
+      color: var(--green-dark);
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 700;
+    }
+
+    .source {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .empty {
+      display: none;
+      border: 2px dashed var(--ink);
+      border-radius: var(--radius);
+      padding: 26px;
+      background: rgba(255,250,240,0.75);
+      color: var(--muted);
+      text-align: center;
+      font-weight: 800;
+    }
+
+    dialog {
+      width: min(760px, calc(100% - 24px));
+      padding: 0;
+    }
+
+    dialog::backdrop {
+      background: rgba(21,21,21,0.45);
+      backdrop-filter: blur(4px);
+    }
+
+    .dialog-head {
+      padding: 16px 18px;
+      border-bottom: 2px solid var(--ink);
+      background: var(--blue);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dialog-head h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    form {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: white;
+      color: var(--ink);
+      padding: 10px 12px;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 78px;
+      line-height: 1.55;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 820px) {
+      .top,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .section-head p {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .quote {
+        grid-template-columns: 42px minmax(0, 1fr);
+        padding: 14px;
+      }
+
+      .icon-btn {
+        width: 38px;
+        height: 38px;
+      }
+
+      .record-head {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="top" aria-label="页面概览">
+      <div class="hero">
+        <div class="kicker">Every 5 Hours · English Notes</div>
+        <h1>五小时一句光，三句成一组。</h1>
+        <p>按时间倒序记录每 5 小时收到的三句英语。每句话都保留中文翻译和来源，播放按钮只朗读英文原句。</p>
+      </div>
+
+      <aside class="panel" aria-label="统计和操作">
+        <div class="stat-grid">
+          <div class="stat">
+            <span>记录批次</span>
+            <strong id="batchCount">0</strong>
+          </div>
+          <div class="stat">
+            <span>英语句子</span>
+            <strong id="quoteCount">0</strong>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn primary" id="addRecordBtn" type="button">新增记录</button>
+          <button class="btn" id="exportBtn" type="button">导出</button>
+          <button class="btn" id="importBtn" type="button">导入</button>
+          <button class="btn warn" id="resetBtn" type="button">重置</button>
+          <input class="sr-only" id="importFile" type="file" accept="application/json">
+        </div>
+      </aside>
+    </section>
+
+    <section class="section-head" aria-label="记录列表标题">
+      <div>
+        <h2>句子记录</h2>
+      </div>
+      <p>最新记录在最前面。播放按钮使用浏览器语音能力，只读英文。</p>
+    </section>
+
+    <section class="records" id="records" aria-live="polite"></section>
+    <div class="empty" id="emptyState">还没有记录。点击“新增记录”添加第一组三句话。</div>
+  </main>
+
+  <dialog id="recordDialog">
+    <div class="dialog-head">
+      <h3>新增三句话</h3>
+      <button class="icon-btn stop" id="closeDialogBtn" type="button" title="关闭" aria-label="关闭">×</button>
+    </div>
+    <form id="recordForm">
+      <label>
+        记录时间
+        <input id="recordTime" type="datetime-local" required>
+      </label>
+      <div class="form-grid">
+        <label>
+          英文 1
+          <textarea id="english1" required></textarea>
+        </label>
+        <label>
+          中文 1
+          <textarea id="chinese1" required></textarea>
+        </label>
+        <label>
+          来源 1
+          <textarea id="source1" required></textarea>
+        </label>
+      </div>
+      <div class="form-grid">
+        <label>
+          英文 2
+          <textarea id="english2" required></textarea>
+        </label>
+        <label>
+          中文 2
+          <textarea id="chinese2" required></textarea>
+        </label>
+        <label>
+          来源 2
+          <textarea id="source2" required></textarea>
+        </label>
+      </div>
+      <div class="form-grid">
+        <label>
+          英文 3
+          <textarea id="english3" required></textarea>
+        </label>
+        <label>
+          中文 3
+          <textarea id="chinese3" required></textarea>
+        </label>
+        <label>
+          来源 3
+          <textarea id="source3" required></textarea>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn" type="button" id="cancelBtn">取消</button>
+        <button class="btn primary" type="submit">保存记录</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const STORAGE_KEY = "english-quote-log-v1";
+
+    const seedRecords = [
+      {
+        id: "manual-2026-06-03-1855",
+        time: "2026-06-03T18:55:00+08:00",
+        quotes: [
+          {
+            english: "The only way to do great work is to love what you do.",
+            chinese: "做出伟大工作的唯一方式，就是热爱你所做的事。",
+            source: "Steve Jobs, Stanford Commencement Address, 2005"
+          },
+          {
+            english: "Hope is a good thing, maybe the best of things, and no good thing ever dies.",
+            chinese: "希望是美好的，也许是世间最美好的东西，而美好的东西永远不会消逝。",
+            source: "Andy Dufresne, The Shawshank Redemption"
+          },
+          {
+            english: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            chinese: "成功不是终点，失败也不是末日，真正重要的是继续前行的勇气。",
+            source: "Commonly attributed to Winston Churchill"
+          }
+        ]
+      },
+      {
+        id: "scheduled-2026-06-03-1840",
+        time: "2026-06-03T18:40:00+08:00",
+        quotes: [
+          {
+            english: "The future belongs to those who believe in the beauty of their dreams.",
+            chinese: "未来属于那些相信梦想之美的人。",
+            source: "Eleanor Roosevelt"
+          },
+          {
+            english: "Do, or do not. There is no try.",
+            chinese: "要么做，要么不做，没有“试试看”。",
+            source: "Yoda, Star Wars: Episode V - The Empire Strikes Back"
+          },
+          {
+            english: "It is never too late to be what you might have been.",
+            chinese: "成为你本可以成为的人，永远不算太晚。",
+            source: "George Eliot"
+          }
+        ]
+      }
+    ];
+
+    const recordsEl = document.querySelector("#records");
+    const emptyStateEl = document.querySelector("#emptyState");
+    const batchCountEl = document.querySelector("#batchCount");
+    const quoteCountEl = document.querySelector("#quoteCount");
+    const dialog = document.querySelector("#recordDialog");
+    const form = document.querySelector("#recordForm");
+    const importFile = document.querySelector("#importFile");
+
+    let records = loadRecords();
+
+    function loadRecords() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (Array.isArray(saved)) return saved;
+      } catch (error) {
+        console.warn("Failed to load saved records", error);
+      }
+      return seedRecords;
+    }
+
+    function saveRecords() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records, null, 2));
+    }
+
+    function sortedRecords() {
+      return [...records].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+    }
+
+    function formatTime(value) {
+      return new Intl.DateTimeFormat("zh-CN", {
+        dateStyle: "medium",
+        timeStyle: "short",
+        hour12: false
+      }).format(new Date(value));
+    }
+
+    function render() {
+      const sorted = sortedRecords();
+      recordsEl.innerHTML = "";
+      emptyStateEl.style.display = sorted.length ? "none" : "block";
+      batchCountEl.textContent = String(sorted.length);
+      quoteCountEl.textContent = String(sorted.reduce((sum, item) => sum + item.quotes.length, 0));
+
+      sorted.forEach((record) => {
+        const article = document.createElement("article");
+        article.className = "record";
+
+        const head = document.createElement("div");
+        head.className = "record-head";
+        head.innerHTML = `
+          <div class="record-time">${escapeHtml(formatTime(record.time))}</div>
+          <div class="record-count">${record.quotes.length} sentences</div>
+        `;
+
+        const list = document.createElement("div");
+        list.className = "quote-list";
+
+        record.quotes.forEach((quote, index) => {
+          const row = document.createElement("div");
+          row.className = "quote";
+          row.innerHTML = `
+            <button class="icon-btn play-btn" type="button" title="朗读英文 ${index + 1}" aria-label="朗读英文 ${index + 1}">▶</button>
+            <div>
+              <p class="english">${escapeHtml(quote.english)}</p>
+              <p class="translation">${escapeHtml(quote.chinese)}</p>
+              <p class="source">(${escapeHtml(quote.source)})</p>
+            </div>
+          `;
+          row.querySelector(".play-btn").addEventListener("click", () => speakEnglish(quote.english));
+          list.appendChild(row);
+        });
+
+        article.append(head, list);
+        recordsEl.appendChild(article);
+      });
+    }
+
+    function speakEnglish(text) {
+      if (!("speechSynthesis" in window)) {
+        alert("当前浏览器不支持朗读。请用 Chrome、Safari 或 Edge 打开。");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      const voice = window.speechSynthesis.getVoices().find((item) => item.lang.startsWith("en"));
+      if (voice) utterance.voice = voice;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function toLocalDateTimeValue(date = new Date()) {
+      const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+      return local.toISOString().slice(0, 16);
+    }
+
+    function openDialog() {
+      document.querySelector("#recordTime").value = toLocalDateTimeValue();
+      form.reset();
+      document.querySelector("#recordTime").value = toLocalDateTimeValue();
+      dialog.showModal();
+    }
+
+    function closeDialog() {
+      dialog.close();
+      form.reset();
+    }
+
+    function formValue(id) {
+      return document.querySelector(id).value.trim();
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      const timeValue = formValue("#recordTime");
+      const next = {
+        id: `record-${Date.now()}`,
+        time: new Date(timeValue).toISOString(),
+        quotes: [1, 2, 3].map((number) => ({
+          english: formValue(`#english${number}`),
+          chinese: formValue(`#chinese${number}`),
+          source: formValue(`#source${number}`)
+        }))
+      };
+      records = [next, ...records];
+      saveRecords();
+      render();
+      closeDialog();
+    }
+
+    function exportRecords() {
+      const blob = new Blob([JSON.stringify(sortedRecords(), null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "english-quote-log.json";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importRecords(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          if (!Array.isArray(imported)) throw new Error("JSON must be an array");
+          records = imported;
+          saveRecords();
+          render();
+        } catch (error) {
+          alert("导入失败：文件格式不正确。");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetRecords() {
+      if (!confirm("确定重置为初始记录吗？")) return;
+      records = seedRecords;
+      saveRecords();
+      render();
+    }
+
+    document.querySelector("#addRecordBtn").addEventListener("click", openDialog);
+    document.querySelector("#closeDialogBtn").addEventListener("click", closeDialog);
+    document.querySelector("#cancelBtn").addEventListener("click", closeDialog);
+    document.querySelector("#exportBtn").addEventListener("click", exportRecords);
+    document.querySelector("#importBtn").addEventListener("click", () => importFile.click());
+    document.querySelector("#resetBtn").addEventListener("click", resetRecords);
+    importFile.addEventListener("change", (event) => {
+      const [file] = event.target.files;
+      if (file) importRecords(file);
+      event.target.value = "";
+    });
+    form.addEventListener("submit", handleSubmit);
+
+    render();
+  </script>
+</body>
+</html>
