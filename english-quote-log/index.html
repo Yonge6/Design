@@ -45,15 +45,15 @@
     .wrap {
       width: min(1120px, calc(100% - 28px));
       margin: 0 auto;
-      padding: 28px 0 52px;
+      padding: 14px 0 38px;
     }
 
     .top {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
-      gap: 18px;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      gap: 12px;
       align-items: stretch;
-      margin-bottom: 22px;
+      margin-bottom: 12px;
     }
 
     .hero,
@@ -67,7 +67,7 @@
     }
 
     .hero {
-      padding: clamp(22px, 4vw, 38px);
+      padding: clamp(16px, 2.3vw, 24px);
       position: relative;
       overflow: hidden;
     }
@@ -89,41 +89,41 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      min-height: 30px;
-      padding: 0 10px;
+      min-height: 26px;
+      padding: 0 9px;
       border: 2px solid var(--ink);
       background: var(--yellow);
       border-radius: 999px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 900;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     h1 {
       margin: 0;
-      max-width: 740px;
+      max-width: 520px;
       font-family: var(--serif);
-      font-size: clamp(34px, 6vw, 66px);
-      line-height: 0.98;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.02;
       font-weight: 700;
     }
 
     .hero p {
-      margin: 16px 0 0;
-      max-width: 680px;
+      margin: 10px 0 0;
+      max-width: 640px;
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.75;
+      font-size: 14px;
+      line-height: 1.55;
       position: relative;
       z-index: 1;
     }
 
     .panel {
-      padding: 18px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 16px;
+      gap: 10px;
     }
 
     .stat-grid {
@@ -136,8 +136,8 @@
       border: 2px solid var(--ink);
       border-radius: var(--radius);
       background: white;
-      padding: 12px;
-      min-height: 82px;
+      padding: 9px 10px;
+      min-height: 58px;
     }
 
     .stat span {
@@ -151,7 +151,7 @@
       display: block;
       margin-top: 6px;
       font-family: var(--serif);
-      font-size: 28px;
+      font-size: 23px;
       line-height: 1;
     }
 
@@ -165,7 +165,7 @@
       border: 2px solid var(--ink);
       border-radius: var(--radius);
       background: white;
-      padding: 12px;
+      padding: 10px;
     }
 
     .voice-box label {
@@ -174,10 +174,10 @@
 
     .voice-box small {
       display: block;
-      margin-top: 8px;
+      margin-top: 6px;
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.45;
+      line-height: 1.35;
     }
 
     .btn,
@@ -192,8 +192,8 @@
     }
 
     .btn {
-      min-height: 44px;
-      padding: 0 14px;
+      min-height: 38px;
+      padding: 0 12px;
       font-weight: 900;
     }
 
@@ -224,7 +224,7 @@
       align-items: end;
       justify-content: space-between;
       gap: 16px;
-      margin: 26px 0 14px;
+      margin: 14px 0 10px;
     }
 
     .section-head h2 {
@@ -241,7 +241,7 @@
 
     .records {
       display: grid;
-      gap: 18px;
+      gap: 14px;
     }
 
     .record {
@@ -341,6 +341,25 @@
       font-weight: 800;
     }
 
+    .site-footer {
+      margin-top: 26px;
+      border-top: 2px solid var(--ink);
+      padding: 18px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .site-footer a {
+      color: var(--ink);
+      font-weight: 900;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+    }
+
     dialog {
       width: min(760px, calc(100% - 24px));
       padding: 0;
@@ -429,6 +448,10 @@
         grid-template-columns: 1fr;
       }
 
+      .hero:after {
+        opacity: 0.45;
+      }
+
       .section-head {
         align-items: start;
         flex-direction: column;
@@ -462,8 +485,8 @@
     <section class="top" aria-label="页面概览">
       <div class="hero">
         <div class="kicker">Every 5 Hours · English Notes</div>
-        <h1>五小时一句光，三句成一组。</h1>
-        <p>按时间倒序记录每 5 小时收到的三句英语。每句话都保留中文翻译和来源，播放按钮只朗读英文原句。</p>
+        <h1>英语句子记录</h1>
+        <p>最新三句优先展示。播放按钮只朗读英文，中文翻译和来源保留给复习。</p>
       </div>
 
       <aside class="panel" aria-label="统计和操作">
@@ -488,10 +511,10 @@
           <label>
             发音声音
             <select id="voiceSelect" aria-label="选择英文朗读声音">
-              <option value="">自动选择美式自然发音</option>
+              <option value="">自动选择</option>
             </select>
           </label>
-          <small>优先选择更自然的美式英语声音。播放仍只朗读英文原句。</small>
+          <small>只显示 2-3 个更自然的美式/英语声音，减少机械感。</small>
         </div>
       </aside>
     </section>
@@ -505,6 +528,10 @@
 
     <section class="records" id="records" aria-live="polite"></section>
     <div class="empty" id="emptyState">还没有记录。点击“新增记录”添加第一组三句话。</div>
+    <footer class="site-footer">
+      <span>English Quote Log</span>
+      <a href="https://yonge6.github.io/Elian" target="_blank" rel="noopener">Elian Design</a>
+    </footer>
   </main>
 
   <dialog id="recordDialog">
@@ -573,6 +600,8 @@
       "samantha",
       "ava",
       "allison",
+      "karen",
+      "moira",
       "susan",
       "victoria",
       "alex",
@@ -718,15 +747,32 @@
       if (lang === "en-us") score += 80;
       else if (lang.startsWith("en-")) score += 40;
       if (preferredIndex >= 0) score += 120 - preferredIndex * 8;
+      if (name.includes("premium") || name.includes("enhanced") || name.includes("natural")) score += 25;
+      if (name.includes("compact") || name.includes("default")) score -= 25;
       if (voice.localService) score += 8;
       return score;
     }
 
+    function getVoiceCandidates() {
+      const seen = new Set();
+      return voices
+        .filter(isEnglishVoice)
+        .sort((a, b) => scoreVoice(b) - scoreVoice(a) || a.name.localeCompare(b.name))
+        .filter((voice) => {
+          const key = `${voice.name}-${voice.lang}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .slice(0, 3);
+    }
+
     function getBestVoice() {
       const savedName = localStorage.getItem(VOICE_KEY);
-      const saved = voices.find((voice) => voice.name === savedName);
+      const candidates = getVoiceCandidates();
+      const saved = candidates.find((voice) => voice.name === savedName);
       if (saved) return saved;
-      return voices.filter(isEnglishVoice).sort((a, b) => scoreVoice(b) - scoreVoice(a))[0] || null;
+      return candidates[0] || null;
     }
 
     function populateVoices() {
@@ -736,21 +782,20 @@
       }
       voices = window.speechSynthesis.getVoices().filter(isEnglishVoice);
       const savedName = localStorage.getItem(VOICE_KEY);
-      const best = getBestVoice();
-      voiceSelect.innerHTML = '<option value="">自动选择美式自然发音</option>';
+      const candidates = getVoiceCandidates();
+      voiceSelect.innerHTML = '<option value="">自动选择</option>';
 
-      voices
-        .sort((a, b) => scoreVoice(b) - scoreVoice(a) || a.name.localeCompare(b.name))
-        .forEach((voice) => {
-          const option = document.createElement("option");
-          option.value = voice.name;
-          option.textContent = `${voice.name} · ${voice.lang}`;
-          voiceSelect.appendChild(option);
-        });
+      candidates.forEach((voice, index) => {
+        const option = document.createElement("option");
+        option.value = voice.name;
+        option.textContent = `声音 ${index + 1} · ${voice.name} · ${voice.lang}`;
+        voiceSelect.appendChild(option);
+      });
 
-      if (savedName && voices.some((voice) => voice.name === savedName)) {
+      if (savedName && candidates.some((voice) => voice.name === savedName)) {
         voiceSelect.value = savedName;
-      } else if (best) {
+      } else {
+        localStorage.removeItem(VOICE_KEY);
         voiceSelect.value = "";
       }
     }
@@ -763,8 +808,8 @@
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
-      utterance.rate = 0.86;
-      utterance.pitch = 0.96;
+      utterance.rate = 0.82;
+      utterance.pitch = 0.92;
       utterance.volume = 1;
       const voice = getBestVoice();
       if (voice) utterance.voice = voice;
