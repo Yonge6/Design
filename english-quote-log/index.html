@@ -70,9 +70,9 @@
       position: relative;
       overflow: hidden;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+      grid-template-columns: 1fr;
       align-items: start;
-      gap: 14px;
+      gap: 12px;
     }
 
     .hero:after {
@@ -149,29 +149,52 @@
       gap: 10px;
     }
 
+    .hero-controls {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .top-action {
+      min-height: 50px;
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      color: var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .top-action:hover {
+      transform: translate(1px, 1px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+
+    .top-action:active {
+      transform: translate(4px, 4px);
+      box-shadow: 0 0 0 var(--ink);
+    }
+
     .practice-link {
-      background: var(--blue);
-      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--yellow);
       text-decoration: none;
-      width: fit-content;
-      min-height: 52px;
-      padding: 0 18px;
+      padding: 0 16px;
       font-size: 15px;
-      box-shadow: 5px 5px 0 var(--ink);
+      font-weight: 900;
+      white-space: nowrap;
     }
 
     .voice-control {
-      justify-self: end;
-      position: relative;
-      z-index: 1;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      border: 2px solid var(--ink);
-      border-radius: var(--radius);
       background: white;
-      padding: 7px 8px;
-      box-shadow: 3px 3px 0 var(--ink);
+      padding: 6px 8px;
     }
 
     .voice-icon {
@@ -324,19 +347,20 @@
     }
 
     .random-panel.is-shuffling .random-main {
-      animation: shuffleCard 520ms ease both;
+      animation: smoothPick 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
     .random-panel.is-shuffling #randomPickBtn {
-      transform: translate(3px, 3px) rotate(-1.5deg);
-      box-shadow: 0 0 0 var(--ink);
+      background: var(--yellow);
+      transform: translate(1px, 1px);
+      box-shadow: 2px 2px 0 var(--ink);
     }
 
-    @keyframes shuffleCard {
-      0% { opacity: 0.55; transform: translateY(4px) rotate(-0.4deg); }
-      35% { opacity: 1; transform: translateY(-3px) rotate(0.6deg); }
-      70% { transform: translateY(2px) rotate(-0.3deg); }
-      100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    @keyframes smoothPick {
+      0% { opacity: 1; transform: translateY(0); filter: blur(0); }
+      24% { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+      44% { opacity: 0; transform: translateY(-10px); filter: blur(4px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
     }
 
     .record {
@@ -635,8 +659,8 @@
         grid-template-columns: 1fr;
       }
 
-      .voice-control {
-        justify-self: start;
+      .hero-controls {
+        align-items: stretch;
       }
 
       .random-actions {
@@ -674,11 +698,11 @@
       }
 
       .voice-control {
-        width: 100%;
+        min-width: 0;
       }
 
       .voice-control select {
-        width: 100%;
+        width: min(168px, 43vw);
       }
 
       .share-card {
@@ -696,17 +720,19 @@
   <main class="wrap">
     <section class="top" aria-label="页面概览">
       <div class="hero">
+        <div class="hero-controls">
+          <a class="top-action practice-link" href="https://docs.qq.com/aio/DZHZOWWJHT1F5RGFV" target="_blank" rel="noopener">AI驱动英语听说</a>
+          <div class="top-action voice-control" title="选择英文朗读声音">
+            <span class="voice-icon" aria-hidden="true">♪</span>
+            <label class="sr-only" for="voiceSelect">音色选择</label>
+            <select id="voiceSelect" aria-label="音色选择">
+              <option value="">音色选择</option>
+            </select>
+          </div>
+        </div>
         <div>
-          <a class="btn practice-link" href="https://docs.qq.com/aio/DZHZOWWJHT1F5RGFV" target="_blank" rel="noopener">AI驱动的英语听说练习</a>
           <h1>三句英语，随时听读。</h1>
           <p>按时间记录中英对照句子，重点放在听读、复习和分享。</p>
-        </div>
-        <div class="voice-control" title="选择英文朗读声音">
-          <span class="voice-icon" aria-hidden="true">♪</span>
-          <label class="sr-only" for="voiceSelect">发音声音</label>
-          <select id="voiceSelect" aria-label="选择英文朗读声音">
-            <option value="">自动选择</option>
-          </select>
         </div>
       </div>
     </section>
@@ -1083,17 +1109,13 @@
       if (!quotes.length) return;
       randomPickBtn.disabled = true;
       randomPanel.classList.add("is-shuffling");
-      let ticks = 0;
-      const timer = window.setInterval(() => {
+      window.setTimeout(() => {
         renderRandomQuote(pickRandomQuote(activeRandomQuote));
-        ticks += 1;
-        if (ticks >= 8) {
-          window.clearInterval(timer);
-          renderRandomQuote(pickRandomQuote(activeRandomQuote));
-          randomPanel.classList.remove("is-shuffling");
-          randomPickBtn.disabled = false;
-        }
-      }, 62);
+      }, 180);
+      window.setTimeout(() => {
+        randomPanel.classList.remove("is-shuffling");
+        randomPickBtn.disabled = false;
+      }, 640);
     }
 
     function isEnglishVoice(voice) {
@@ -1144,7 +1166,7 @@
       voices = window.speechSynthesis.getVoices().filter(isEnglishVoice);
       const savedName = localStorage.getItem(VOICE_KEY);
       const candidates = getVoiceCandidates();
-      voiceSelect.innerHTML = '<option value="">自动选择</option>';
+      voiceSelect.innerHTML = '<option value="">音色选择</option>';
 
       candidates.forEach((voice, index) => {
         const option = document.createElement("option");
