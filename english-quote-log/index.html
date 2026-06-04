@@ -478,6 +478,13 @@
       flex-wrap: wrap;
     }
 
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .site-footer a {
       color: var(--ink);
       font-weight: 900;
@@ -640,6 +647,78 @@
       margin-top: 16px;
     }
 
+    .analytics-body {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      background: var(--paper);
+    }
+
+    .analytics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: white;
+      padding: 12px;
+      min-height: 86px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--serif);
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .analytics-list {
+      border: 2px solid var(--ink);
+      border-radius: var(--radius);
+      background: white;
+      overflow: hidden;
+    }
+
+    .analytics-row {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .analytics-row:last-child {
+      border-bottom: 0;
+    }
+
+    .analytics-row strong {
+      font-weight: 900;
+    }
+
+    .analytics-row span {
+      color: var(--muted);
+    }
+
+    .analytics-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .sr-only {
       position: absolute;
       width: 1px;
@@ -710,6 +789,14 @@
         padding: 22px;
       }
 
+      .analytics-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .analytics-row {
+        grid-template-columns: 1fr;
+      }
+
       .share-bottom {
         align-items: end;
       }
@@ -764,7 +851,10 @@
     </section>
     <footer class="site-footer">
       <span>English Quote Log</span>
-      <a href="https://yonge6.github.io/Elian" target="_blank" rel="noopener">Elian Design</a>
+      <div class="footer-actions">
+        <button class="btn" id="analyticsBtn" type="button">数据</button>
+        <a href="https://yonge6.github.io/Elian" target="_blank" rel="noopener">Elian Design</a>
+      </div>
     </footer>
   </main>
 
@@ -851,11 +941,39 @@
     </div>
   </dialog>
 
+  <dialog id="analyticsDialog">
+    <div class="dialog-head">
+      <h3>使用数据</h3>
+      <button class="icon-btn stop" id="closeAnalyticsBtn" type="button" title="关闭" aria-label="关闭">×</button>
+    </div>
+    <div class="analytics-body">
+      <div class="analytics-grid" id="analyticsGrid"></div>
+      <div class="analytics-list" id="analyticsList"></div>
+      <div class="analytics-actions">
+        <button class="btn warn" id="clearAnalyticsBtn" type="button">清除数据</button>
+      </div>
+    </div>
+  </dialog>
+
   <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
   <script>
     const STORAGE_KEY = "english-quote-log-v1";
     const VOICE_KEY = "english-quote-log-voice-v1";
+    const ANALYTICS_KEY = "english-quote-log-analytics-v1";
     const PAGE_URL = "https://yonge6.github.io/Design/english-quote-log/";
+    const analyticsLabels = {
+      visit: "访问",
+      play: "朗读",
+      random: "随机选择",
+      share: "生成分享",
+      save: "保存图片",
+      copy: "复制句子",
+      add: "新增记录",
+      export: "导出",
+      import: "导入",
+      reset: "重置",
+      voice: "切换音色"
+    };
     const preferredVoiceWords = [
       "samantha",
       "ava",
@@ -997,6 +1115,9 @@
     const randomPickBtn = document.querySelector("#randomPickBtn");
     const randomPlayBtn = document.querySelector("#randomPlayBtn");
     const randomShareBtn = document.querySelector("#randomShareBtn");
+    const analyticsDialog = document.querySelector("#analyticsDialog");
+    const analyticsGrid = document.querySelector("#analyticsGrid");
+    const analyticsList = document.querySelector("#analyticsList");
 
     let records = loadRecords();
     let voices = [];
@@ -1024,6 +1145,119 @@
 
     function saveRecords() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(records, null, 2));
+    }
+
+    function defaultAnalytics() {
+      const now = new Date().toISOString();
+      return {
+        firstVisit: now,
+        lastVisit: now,
+        counters: {},
+        recent: []
+      };
+    }
+
+    function loadAnalytics() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(ANALYTICS_KEY));
+        if (saved && typeof saved === "object") {
+          return {
+            ...defaultAnalytics(),
+            ...saved,
+            counters: saved.counters && typeof saved.counters === "object" ? saved.counters : {},
+            recent: Array.isArray(saved.recent) ? saved.recent : []
+          };
+        }
+      } catch (error) {
+        console.warn("Failed to load analytics", error);
+      }
+      return defaultAnalytics();
+    }
+
+    function saveAnalytics(data) {
+      localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
+    }
+
+    function trackEvent(type, detail = "") {
+      const data = loadAnalytics();
+      const now = new Date().toISOString();
+      data.lastVisit = now;
+      data.counters[type] = (data.counters[type] || 0) + 1;
+      data.recent = [
+        {
+          type,
+          label: analyticsLabels[type] || type,
+          detail,
+          at: now
+        },
+        ...data.recent
+      ].slice(0, 80);
+      saveAnalytics(data);
+    }
+
+    function formatNumber(value) {
+      return new Intl.NumberFormat("zh-CN").format(value || 0);
+    }
+
+    function metricTemplate(label, value) {
+      return `
+        <div class="metric">
+          <span>${escapeHtml(label)}</span>
+          <strong>${escapeHtml(formatNumber(value))}</strong>
+        </div>
+      `;
+    }
+
+    function renderAnalytics() {
+      const data = loadAnalytics();
+      const counters = data.counters || {};
+      analyticsGrid.innerHTML = [
+        metricTemplate("访问次数", counters.visit),
+        metricTemplate("朗读次数", counters.play),
+        metricTemplate("随机选择", counters.random),
+        metricTemplate("分享图片", counters.share),
+        metricTemplate("保存图片", counters.save),
+        metricTemplate("句子总数", allQuotes().length)
+      ].join("");
+
+      const selectedVoice = voiceSelect.selectedOptions[0]?.textContent || "音色选择";
+      const rows = [
+        {
+          label: "当前音色",
+          value: selectedVoice
+        },
+        {
+          label: "首次访问",
+          value: formatTime(data.firstVisit)
+        },
+        {
+          label: "最近访问",
+          value: formatTime(data.lastVisit)
+        },
+        ...data.recent.slice(0, 8).map((event) => ({
+          label: event.label,
+          value: `${formatTime(event.at)}${event.detail ? ` · ${event.detail}` : ""}`
+        }))
+      ];
+
+      analyticsList.innerHTML = rows.map((row) => `
+        <div class="analytics-row">
+          <strong>${escapeHtml(row.label)}</strong>
+          <span>${escapeHtml(row.value)}</span>
+        </div>
+      `).join("");
+    }
+
+    function openAnalyticsDialog() {
+      renderAnalytics();
+      analyticsDialog.showModal();
+    }
+
+    function clearAnalytics() {
+      if (!confirm("确定清除本机使用数据吗？")) return;
+      localStorage.removeItem(ANALYTICS_KEY);
+      trackEvent("visit", "数据重置后");
+      renderAnalytics();
     }
 
     function sortedRecords() {
@@ -1080,7 +1314,7 @@
               <p class="source">(${escapeHtml(quote.source)})</p>
             </div>
           `;
-          row.querySelector(".play-btn").addEventListener("click", () => speakEnglish(quote.english));
+          row.querySelector(".play-btn").addEventListener("click", () => speakEnglish(quote.english, "列表句子"));
           row.querySelector(".share-btn").addEventListener("click", () => openShareDialog(quote));
           list.appendChild(row);
         });
@@ -1128,6 +1362,7 @@
     function shuffleRandomQuote() {
       const quotes = allQuotes();
       if (!quotes.length) return;
+      trackEvent("random", "随机练一句");
       randomPickBtn.disabled = true;
       randomPanel.classList.add("is-shuffling");
       window.setTimeout(() => {
@@ -1204,11 +1439,12 @@
       }
     }
 
-    function speakEnglish(text) {
+    function speakEnglish(text, detail = "") {
       if (!("speechSynthesis" in window)) {
         alert("当前浏览器不支持朗读。请用 Chrome、Safari 或 Edge 打开。");
         return;
       }
+      trackEvent("play", detail);
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
@@ -1222,6 +1458,7 @@
 
     function openShareDialog(quote) {
       activeShareQuote = quote;
+      trackEvent("share", quote.source);
       shareEnglish.textContent = quote.english;
       shareChinese.textContent = quote.chinese;
       shareSource.textContent = `(${quote.source})`;
@@ -1356,6 +1593,7 @@
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
       if (!blob) return;
       const file = new File([blob], `english-quote-${Date.now()}.png`, { type: "image/png" });
+      trackEvent("save", activeShareQuote.source);
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         try {
           await navigator.share({
@@ -1436,11 +1674,13 @@
       };
       records = [next, ...records];
       saveRecords();
+      trackEvent("add", formatTime(next.time));
       render();
       closeDialog();
     }
 
     function exportRecords() {
+      trackEvent("export", `${records.length} 组记录`);
       const blob = new Blob([JSON.stringify(sortedRecords(), null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -1458,6 +1698,7 @@
           if (!Array.isArray(imported)) throw new Error("JSON must be an array");
           records = imported;
           saveRecords();
+          trackEvent("import", `${records.length} 组记录`);
           render();
         } catch (error) {
           alert("导入失败：文件格式不正确。");
@@ -1470,21 +1711,28 @@
       if (!confirm("确定重置为初始记录吗？")) return;
       records = seedRecords;
       saveRecords();
+      trackEvent("reset", `${seedRecords.length} 组初始记录`);
       render();
     }
 
     document.querySelector("#addRecordBtn").addEventListener("click", openDialog);
     document.querySelector("#closeDialogBtn").addEventListener("click", closeDialog);
     document.querySelector("#closeShareBtn").addEventListener("click", closeShareDialog);
+    document.querySelector("#analyticsBtn").addEventListener("click", openAnalyticsDialog);
+    document.querySelector("#closeAnalyticsBtn").addEventListener("click", () => analyticsDialog.close());
+    document.querySelector("#clearAnalyticsBtn").addEventListener("click", clearAnalytics);
     document.querySelector("#cancelBtn").addEventListener("click", closeDialog);
     document.querySelector("#exportBtn").addEventListener("click", exportRecords);
     document.querySelector("#importBtn").addEventListener("click", () => importFile.click());
     document.querySelector("#resetBtn").addEventListener("click", resetRecords);
     document.querySelector("#saveShareImageBtn").addEventListener("click", saveShareImage);
-    document.querySelector("#copyQuoteBtn").addEventListener("click", () => copyText(shareQuoteText()));
+    document.querySelector("#copyQuoteBtn").addEventListener("click", () => {
+      trackEvent("copy", activeShareQuote?.source || "");
+      copyText(shareQuoteText());
+    });
     randomPickBtn.addEventListener("click", shuffleRandomQuote);
     randomPlayBtn.addEventListener("click", () => {
-      if (activeRandomQuote) speakEnglish(activeRandomQuote.english);
+      if (activeRandomQuote) speakEnglish(activeRandomQuote.english, "随机句子");
     });
     randomShareBtn.addEventListener("click", () => {
       if (activeRandomQuote) openShareDialog(activeRandomQuote);
@@ -1492,6 +1740,7 @@
     voiceSelect.addEventListener("change", () => {
       if (voiceSelect.value) localStorage.setItem(VOICE_KEY, voiceSelect.value);
       else localStorage.removeItem(VOICE_KEY);
+      trackEvent("voice", voiceSelect.selectedOptions[0]?.textContent || "音色选择");
     });
     importFile.addEventListener("change", (event) => {
       const [file] = event.target.files;
@@ -1500,6 +1749,7 @@
     });
     form.addEventListener("submit", handleSubmit);
 
+    trackEvent("visit");
     populateVoices();
     if ("speechSynthesis" in window) {
       window.speechSynthesis.addEventListener("voiceschanged", populateVoices);
