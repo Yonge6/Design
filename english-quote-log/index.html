@@ -977,22 +977,44 @@
       reset: "重置",
       voice: "切换音色"
     };
-    const preferredVoiceWords = [
-      "samantha",
-      "ava",
-      "allison",
-      "karen",
-      "moira",
-      "susan",
-      "victoria",
-      "alex",
-      "google us english",
-      "microsoft aria",
-      "microsoft jenny",
-      "zira"
+    const preferredVoiceProfiles = [
+      { match: ["microsoft ava", "ava online", "ava"], gender: "女声", accent: "美式", rank: 1 },
+      { match: ["microsoft jenny", "jenny online", "jenny"], gender: "女声", accent: "美式", rank: 2 },
+      { match: ["microsoft aria", "aria online", "aria"], gender: "女声", accent: "美式", rank: 3 },
+      { match: ["microsoft guy", "guy online", "guy"], gender: "男声", accent: "美式", rank: 4 },
+      { match: ["microsoft davis", "davis online", "davis"], gender: "男声", accent: "美式", rank: 5 },
+      { match: ["microsoft ryan", "ryan online", "ryan"], gender: "男声", accent: "英式", rank: 6 },
+      { match: ["microsoft sonia", "sonia online", "sonia"], gender: "女声", accent: "英式", rank: 7 },
+      { match: ["samantha"], gender: "女声", accent: "美式", rank: 8 },
+      { match: ["alex"], gender: "男声", accent: "美式", rank: 9 },
+      { match: ["allison"], gender: "女声", accent: "美式", rank: 10 },
+      { match: ["google us english"], gender: "女声", accent: "美式", rank: 11 },
+      { match: ["daniel"], gender: "男声", accent: "英式", rank: 12 },
+      { match: ["karen", "moira", "susan", "victoria", "zira"], gender: "女声", accent: "英语", rank: 13 }
     ];
 
     const seedRecords = [
+      {
+        "id": "scheduled-2026-06-04-1840",
+        "time": "2026-06-04T18:40:05+08:00",
+        "quotes": [
+          {
+            "english": "Act as if what you do makes a difference. It does.",
+            "chinese": "行动吧，就像你的所作所为会带来改变一样。它确实会。",
+            "source": "William James"
+          },
+          {
+            "english": "The journey of a thousand miles begins with one step.",
+            "chinese": "千里之行，始于足下。",
+            "source": "Lao Tzu, Tao Te Ching"
+          },
+          {
+            "english": "Great things are not done by impulse, but by a series of small things brought together.",
+            "chinese": "伟大的事情不是靠一时冲动完成的，而是由一连串小事累积而成。",
+            "source": "Vincent van Gogh"
+          }
+        ]
+      },
       {
         "id": "scheduled-2026-06-04-1818",
         "time": "2026-06-04T18:18:53+08:00",
@@ -1689,23 +1711,35 @@
       return voice.lang && voice.lang.toLowerCase().startsWith("en");
     }
 
+    function getVoiceProfile(voice) {
+      const name = voice.name.toLowerCase();
+      return preferredVoiceProfiles.find((profile) =>
+        profile.match.some((word) => name.includes(word))
+      ) || null;
+    }
+
     function scoreVoice(voice) {
       const name = voice.name.toLowerCase();
       const lang = voice.lang.toLowerCase();
-      const preferredIndex = preferredVoiceWords.findIndex((word) => name.includes(word));
+      const profile = getVoiceProfile(voice);
       let score = 0;
-      if (lang === "en-us") score += 80;
-      else if (lang.startsWith("en-")) score += 40;
-      if (preferredIndex >= 0) score += 120 - preferredIndex * 8;
-      if (name.includes("premium") || name.includes("enhanced") || name.includes("natural")) score += 25;
-      if (name.includes("compact") || name.includes("default")) score -= 25;
-      if (voice.localService) score += 8;
+      if (lang === "en-us") score += 90;
+      else if (lang === "en-gb") score += 62;
+      else if (lang.startsWith("en-")) score += 44;
+      if (profile) score += 220 - profile.rank * 8;
+      if (name.includes("online") || name.includes("natural")) score += 42;
+      if (name.includes("premium") || name.includes("enhanced")) score += 32;
+      if (name.includes("neural")) score += 28;
+      if (name.includes("compact")) score -= 60;
+      if (name.includes("default")) score -= 28;
+      if (name.includes("eloquence") || name.includes("novelty")) score -= 90;
+      if (voice.localService) score += 4;
       return score;
     }
 
     function getVoiceCandidates() {
       const seen = new Set();
-      return voices
+      const sorted = voices
         .filter(isEnglishVoice)
         .sort((a, b) => scoreVoice(b) - scoreVoice(a) || a.name.localeCompare(b.name))
         .filter((voice) => {
@@ -1713,8 +1747,26 @@
           if (seen.has(key)) return false;
           seen.add(key);
           return true;
-        })
-        .slice(0, 3);
+        });
+      const selected = [];
+      ["女声", "男声"].forEach((gender) => {
+        sorted
+          .filter((voice) => getVoiceProfile(voice)?.gender === gender)
+          .slice(0, 3)
+          .forEach((voice) => {
+            if (!selected.includes(voice) && selected.length < 7) selected.push(voice);
+          });
+      });
+      sorted.forEach((voice) => {
+        if (!selected.includes(voice) && selected.length < 7) selected.push(voice);
+      });
+      return selected;
+    }
+
+    function formatVoiceOption(voice, index) {
+      const profile = getVoiceProfile(voice);
+      const label = profile ? `${profile.gender} · ${profile.accent}` : voice.lang;
+      return `音色 ${index + 1} · ${label} · ${voice.name}`;
     }
 
     function getBestVoice() {
@@ -1738,7 +1790,7 @@
       candidates.forEach((voice, index) => {
         const option = document.createElement("option");
         option.value = voice.name;
-        option.textContent = `声音 ${index + 1} · ${voice.name} · ${voice.lang}`;
+        option.textContent = formatVoiceOption(voice, index);
         voiceSelect.appendChild(option);
       });
 
@@ -1759,8 +1811,8 @@
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
-      utterance.rate = 0.82;
-      utterance.pitch = 0.92;
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
       utterance.volume = 1;
       const voice = getBestVoice();
       if (voice) utterance.voice = voice;
