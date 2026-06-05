@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pagePath = path.resolve(__dirname, "../english-quote-log/index.html");
+const remotePageUrl = "https://raw.githubusercontent.com/Yonge6/Design/main/english-quote-log/index.html";
 
 const quoteSets = [
   [
@@ -173,6 +174,16 @@ function indentRecord(record) {
     .split("\n")
     .map((line) => `      ${line}`)
     .join("\n");
+}
+
+if (!fs.existsSync(pagePath)) {
+  const response = await fetch(remotePageUrl);
+  if (!response.ok) {
+    throw new Error(`Could not restore missing page: ${response.status} ${response.statusText}`);
+  }
+  fs.mkdirSync(path.dirname(pagePath), { recursive: true });
+  fs.writeFileSync(pagePath, await response.text());
+  console.log("Restored missing English quote page from GitHub.");
 }
 
 const html = fs.readFileSync(pagePath, "utf8");
