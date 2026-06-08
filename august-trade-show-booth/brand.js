@@ -18,6 +18,24 @@ const sharedRequirements = {
   story: ["机器", "加工过程", "成品", "商业价值"]
 };
 
+const proposalGalleryData = [
+  {
+    label: "OPTION 01 VISUALS",
+    title: "方案一效果图",
+    images: ["A01", "A02", "A03", "A04"]
+  },
+  {
+    label: "OPTION 02 VISUALS",
+    title: "方案二效果图",
+    images: ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08"]
+  },
+  {
+    label: "OPTION 03 VISUALS",
+    title: "方案三效果图",
+    images: ["C01", "C02", "C03", "C04", "C05"]
+  }
+];
+
 const bilingualCopy = {
   "10 × 40 FT EXHIBITION BOOTH": ["10 × 40 FT EXHIBITION BOOTH", "10×40 英尺展会展位"],
   "U.S. Machine Company": ["U.S. Machine Company", "美国机器公司"],
@@ -406,6 +424,47 @@ const renderProposal = (proposal) => `
     </div>
   </div>`;
 
+const renderGallery = (selectedIndex) => {
+  const gallery = proposalGalleryData[selectedIndex];
+  return `
+    <section class="proposal-gallery proposal-enter" aria-label="${gallery.label}">
+      <div class="gallery-heading">
+        <div>
+          <span>${gallery.label}</span>
+          <h3>${gallery.title}</h3>
+        </div>
+        <div class="gallery-actions">
+          <span>${gallery.images.length} IMAGES / ${gallery.images.length} 张图片</span>
+          <button class="gallery-arrow gallery-prev" type="button" aria-label="Previous image">←</button>
+          <button class="gallery-arrow gallery-next" type="button" aria-label="Next image">→</button>
+        </div>
+      </div>
+      <div class="gallery-track" tabindex="0">
+        ${gallery.images.map((image, imageIndex) => `
+          <button class="gallery-card" type="button" data-gallery-index="${imageIndex}" aria-label="Open ${image}">
+            <img src="assets/proposals/${image}.jpg" alt="${gallery.title} ${imageIndex + 1}" loading="${imageIndex === 0 ? "eager" : "lazy"}" decoding="async">
+            <span><b>${image}</b><small>CLICK TO ENLARGE / 点击放大</small></span>
+          </button>`).join("")}
+      </div>
+    </section>`;
+};
+
+const createLightbox = () => {
+  const lightbox = document.createElement("div");
+  lightbox.className = "proposal-lightbox";
+  lightbox.setAttribute("aria-hidden", "true");
+  lightbox.innerHTML = `
+    <button class="lightbox-close" type="button" aria-label="Close image">×</button>
+    <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">←</button>
+    <figure>
+      <img alt="">
+      <figcaption></figcaption>
+    </figure>
+    <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">→</button>`;
+  document.body.appendChild(lightbox);
+  return lightbox;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   document.body.innerHTML = document.body.innerHTML
     .replaceAll("SEG 灯箱背墙 + 产品岛台", "SEG 灯箱背墙 + 直接落地机位 + 桌面工作台")
@@ -462,11 +521,78 @@ document.addEventListener("DOMContentLoaded", () => {
         .slice(Array.from(proposalSection.children).indexOf(controlBar) + 1)
         .forEach((node) => node.remove());
 
+      const galleryHost = document.createElement("div");
+      galleryHost.className = "proposal-gallery-host";
+      proposalSection.appendChild(galleryHost);
+
       const detailHost = document.createElement("div");
       detailHost.className = "proposal-host";
       proposalSection.appendChild(detailHost);
 
+      const lightbox = createLightbox();
+      const lightboxImage = lightbox.querySelector("img");
+      const lightboxCaption = lightbox.querySelector("figcaption");
+      let activeProposalIndex = 1;
+      let activeImageIndex = 0;
+
+      const showLightboxImage = () => {
+        const gallery = proposalGalleryData[activeProposalIndex];
+        const image = gallery.images[activeImageIndex];
+        lightboxImage.src = `assets/proposals/${image}.jpg`;
+        lightboxImage.alt = `${gallery.title} ${activeImageIndex + 1}`;
+        lightboxCaption.textContent = `${image} · ${activeImageIndex + 1} / ${gallery.images.length}`;
+      };
+
+      const openLightbox = (imageIndex) => {
+        activeImageIndex = imageIndex;
+        showLightboxImage();
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("lightbox-open");
+        lightbox.querySelector(".lightbox-close").focus();
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("lightbox-open");
+      };
+
+      const stepLightbox = (direction) => {
+        const count = proposalGalleryData[activeProposalIndex].images.length;
+        activeImageIndex = (activeImageIndex + direction + count) % count;
+        showLightboxImage();
+      };
+
+      lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
+      lightbox.querySelector(".lightbox-prev").addEventListener("click", () => stepLightbox(-1));
+      lightbox.querySelector(".lightbox-next").addEventListener("click", () => stepLightbox(1));
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (!lightbox.classList.contains("is-open")) return;
+        if (event.key === "Escape") closeLightbox();
+        if (event.key === "ArrowLeft") stepLightbox(-1);
+        if (event.key === "ArrowRight") stepLightbox(1);
+      });
+
+      const wireGallery = () => {
+        const track = galleryHost.querySelector(".gallery-track");
+        const cards = Array.from(galleryHost.querySelectorAll(".gallery-card"));
+        const scrollOneCard = (direction) => {
+          const cardWidth = cards[0]?.getBoundingClientRect().width || track.clientWidth;
+          track.scrollBy({ left: direction * (cardWidth + 16), behavior: "smooth" });
+        };
+        galleryHost.querySelector(".gallery-prev").addEventListener("click", () => scrollOneCard(-1));
+        galleryHost.querySelector(".gallery-next").addEventListener("click", () => scrollOneCard(1));
+        cards.forEach((card, imageIndex) => {
+          card.addEventListener("click", () => openLightbox(imageIndex));
+        });
+      };
+
       const selectProposal = (selectedIndex) => {
+        activeProposalIndex = selectedIndex;
         proposalControls.forEach((button, index) => {
           const isSelected = index === selectedIndex;
           button.classList.toggle("proposal-control-active", isSelected);
@@ -474,7 +600,9 @@ document.addEventListener("DOMContentLoaded", () => {
           button.style.backgroundColor = isSelected ? "#E7310E" : "transparent";
           button.style.color = isSelected ? "#fff" : "#666";
         });
+        galleryHost.innerHTML = renderGallery(selectedIndex);
         detailHost.innerHTML = renderProposal(proposalData[selectedIndex]);
+        wireGallery();
         applyBilingualHierarchy(detailHost);
       };
 

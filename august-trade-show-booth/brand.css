@@ -90,6 +90,201 @@ button[data-proposal-index]:not(.proposal-control-active):hover {
   margin-top: 2rem;
 }
 
+.proposal-gallery-host {
+  margin-top: 1.25rem;
+}
+
+.proposal-gallery {
+  border: 1px solid #252525;
+  background: linear-gradient(145deg, #111, #090909);
+  padding: clamp(0.8rem, 2vw, 1.25rem);
+}
+
+.gallery-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.gallery-heading > div > span,
+.gallery-actions > span {
+  color: var(--onelaser-red);
+  font: 10px monospace;
+  letter-spacing: 0.14em;
+}
+
+.gallery-heading h3 {
+  margin-top: 0.2rem;
+  color: #777;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.gallery-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.gallery-actions > span {
+  margin-right: 0.4rem;
+  color: #666;
+}
+
+.gallery-arrow {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #333;
+  background: #0a0a0a;
+  color: #fff;
+  font-size: 17px;
+  transition: 160ms ease;
+}
+
+.gallery-arrow:hover {
+  border-color: var(--onelaser-red);
+  background: var(--onelaser-red);
+}
+
+.gallery-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(72%, 880px);
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--onelaser-red) #171717;
+  padding-bottom: 0.7rem;
+}
+
+.gallery-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
+  border: 1px solid #2c2c2c;
+  background: #050505;
+  color: #fff;
+  text-align: left;
+  cursor: zoom-in;
+}
+
+.gallery-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #050505;
+  transition: transform 240ms ease, opacity 240ms ease;
+}
+
+.gallery-card:hover img {
+  transform: scale(1.015);
+  opacity: 0.9;
+}
+
+.gallery-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid #222;
+  padding: 0.65rem 0.8rem;
+}
+
+.gallery-card b {
+  color: var(--onelaser-red);
+  font: 700 11px monospace;
+  letter-spacing: 0.1em;
+}
+
+.gallery-card small {
+  color: #666;
+  font: 9px monospace;
+  letter-spacing: 0.08em;
+}
+
+.lightbox-open {
+  overflow: hidden;
+}
+
+.proposal-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: clamp(1rem, 4vw, 3rem);
+}
+
+.proposal-lightbox.is-open {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.proposal-lightbox figure {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.proposal-lightbox img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 7rem);
+  object-fit: contain;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+.proposal-lightbox figcaption {
+  margin-top: 0.65rem;
+  color: #aaa;
+  font: 10px monospace;
+  letter-spacing: 0.12em;
+}
+
+.lightbox-close,
+.lightbox-nav {
+  display: grid;
+  place-items: center;
+  border: 1px solid #444;
+  background: rgba(10, 10, 10, 0.86);
+  color: #fff;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+}
+
+.lightbox-nav {
+  width: 48px;
+  height: 64px;
+  margin: 0 0.75rem;
+  font-size: 22px;
+}
+
+.lightbox-close:hover,
+.lightbox-nav:hover {
+  border-color: var(--onelaser-red);
+  background: var(--onelaser-red);
+}
+
 .proposal-sticky-control {
   position: sticky;
   top: 0;
@@ -667,6 +862,57 @@ th .secondary-zh-copy {
 
   .proposal-sticky-control {
     top: env(safe-area-inset-top, 0);
+  }
+
+  .gallery-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .gallery-actions {
+    width: 100%;
+  }
+
+  .gallery-actions > span {
+    margin-right: auto;
+  }
+
+  .gallery-track {
+    grid-auto-columns: 92%;
+  }
+
+  .gallery-card > span {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .proposal-lightbox {
+    padding: 0.75rem;
+  }
+
+  .proposal-lightbox.is-open {
+    grid-template-columns: 1fr;
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    bottom: 1rem;
+    width: 46px;
+    height: 46px;
+    margin: 0;
+  }
+
+  .lightbox-prev {
+    left: 1rem;
+  }
+
+  .lightbox-next {
+    right: 1rem;
+  }
+
+  .proposal-lightbox img {
+    max-height: calc(100vh - 8rem);
   }
 
   .proposal-heading,
