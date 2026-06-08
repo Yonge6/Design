@@ -475,10 +475,10 @@ th .secondary-zh-copy {
 
 .bench-machines {
   display: grid;
-  grid-template-columns: 1.085fr 0.63fr 0.54fr 0.5fr 0.46fr;
+  grid-template-columns: 1.085fr 0.63fr 1fr 0.63fr 0.32fr;
   gap: 0.45rem;
   align-items: end;
-  min-width: 520px;
+  min-width: 720px;
   padding: 0 0.6rem;
 }
 
@@ -517,12 +517,31 @@ th .secondary-zh-copy {
 }
 
 .compact-machine { font-size: 9px; }
-.y-machine { height: 48px; }
-.viper-machine { height: 42px; }
-.galvo-machine { height: 36px; }
+.y-machine {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3.8 / 1;
+}
+
+.viper-machine {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 630 / 710;
+}
+
+.galvo-machine {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 320 / 683;
+  font-size: 7px;
+}
+
+.galvo-machine small {
+  font-size: 6px;
+}
 
 .bench-top {
-  min-width: 520px;
+  min-width: 720px;
   height: 10px;
   border: 1px solid #444;
   background: #242424;
@@ -533,7 +552,7 @@ th .secondary-zh-copy {
   justify-content: space-around;
   gap: 0.35rem;
   min-height: 48px;
-  min-width: 520px;
+  min-width: 720px;
   border: 1px solid #2b2b2b;
   border-bottom: 3px solid var(--onelaser-red);
   background: linear-gradient(180deg, #171717, #0d0d0d);

@@ -4,9 +4,9 @@ const sharedRequirements = {
     ["Cobra 10", "1680 × 1090 × 940 mm", '66" × 43" × 37"', "直接落地 / 第二大机型", "Direct floor placement / Second-largest machine"],
     ["XRF", "1085 × 725 × 268 mm", '43.2" × 28.5" × 10.5"', "桌面机 / 综合工作台最大", "Largest unit on desktop bench"],
     ["VertiGo", "630 × 550 × 710 mm", '24.8" × 21.65" × 27.95"', "桌面机 / 杯壶与旋转雕刻", "Desktop tumbler and rotary engraving"],
-    ["Y Series", "桌面机 / Desktop Machine", "体量小于 XRF / Smaller than XRF", "综合工作台", "Desktop Innovation Bench"],
-    ["Viper", "桌面机 / Desktop Machine", "体量小于 XRF / Smaller than XRF", "综合工作台", "Desktop Innovation Bench"],
-    ["GALVO FLEX", "桌面机 / Desktop Machine", "体量小于 XRF / Smaller than XRF", "综合工作台", "Desktop Innovation Bench"]
+    ["Y Series", "桌面机 / Desktop Machine", "整体比 XRF 稍小 / Slightly smaller than XRF", "综合工作台", "Desktop Innovation Bench"],
+    ["Viper", "630 × 550 × 710 mm", '24.8" × 21.65" × 27.95"', "桌面机 / 与 VertiGo 同尺寸", "Desktop machine / Same size as VertiGo"],
+    ["GALVO FLEX", "320 × 450 × 683 mm", '12.6" × 17.72" × 26.89"', "桌面机 / 最窄高机型", "Desktop machine / Narrowest tall unit"]
   ],
   samples: {
     large: ["36–48 英寸木雕地图", "多层木质艺术墙板", "大型企业 Logo", "亚克力灯牌", "商业标识牌"],
@@ -177,7 +177,7 @@ const proposalData = [
       ["桌面机综合展示台", "XRF + VertiGo + Y Series + Viper + GALVO FLEX"],
       ["桌面应用区", "杯壶、礼品、铭牌和小型成品"]
     ],
-    machineDisplay: "Hydra 9 Gen2 与 Cobra 10 直接放在展位地面，不使用垫高平台。Hydra 9 Gen2 最大，Cobra 10 第二大。XRF、VertiGo、Y Series、Viper、GALVO FLEX 统一放在连续桌面机工作台上。严格按真实尺寸关系表现：XRF 宽而低，VertiGo 更窄但明显更高，Y Series、Viper、GALVO FLEX 均小于 XRF。",
+    machineDisplay: "Hydra 9 Gen2 与 Cobra 10 直接放在展位地面，不使用垫高平台。其余五台统一放在连续桌面机工作台。严格按真实尺寸关系表现：XRF 为最宽的低矮桌面机；Y Series 整体只比 XRF 稍小；VertiGo 与 Viper 均为 630 × 550 × 710 mm，同宽同高；GALVO FLEX 为 320 × 450 × 683 mm，是最窄但较高的机型。",
     video: "背墙或接待台旁设置电视机，循环播放切割、雕刻火花、客户案例和真实成品。",
     salesArea: "左前方设置接待台，配置二维码、宣传册、名片和小样品盒；大样品与小样品同时出现。",
     floorPlan: ["40 ft 宽 × 10 ft 深", "接待台", "电视机", "Hydra 9 Gen2 直接落地", "Cobra 10 直接落地", "5 款桌面机连续工作台", "样品桌", "开放客户动线"],
@@ -187,7 +187,7 @@ const proposalData = [
       budget: "Low budget / Fast deployment / First-time exhibitor",
       concept: "A clean U.S. industrial presentation built with portable fixtures and the disciplined black, white and performance-red energy of an F1 pit garage. No race car and no people appear in the booth visuals.",
       zones: ["U.S. Machine Company", "Largest machine / Direct floor hero position", "Second-largest machine / Direct floor placement", "XRF + VertiGo + Y Series + Viper + GALVO FLEX", "Drinkware, gifts, nameplates and compact samples"],
-      machineDisplay: "Hydra 9 Gen2 and Cobra 10 sit directly on the exhibition floor with no raised platforms. Hydra 9 Gen2 is the largest and Cobra 10 is second. The other five machines sit on one continuous bench. Preserve actual proportions: XRF is wide and low, VertiGo is narrower but much taller, and Y Series, Viper and GALVO FLEX are all smaller than XRF.",
+      machineDisplay: "Hydra 9 Gen2 and Cobra 10 sit directly on the floor with no raised platforms. The other five machines share one continuous bench. Preserve actual proportions: XRF is the widest low-profile desktop machine; Y Series is only slightly smaller than XRF; VertiGo and Viper are identical at 630 × 550 × 710 mm; GALVO FLEX is the narrowest tall unit at 320 × 450 × 683 mm.",
       video: "A TV beside the backwall or reception counter loops cutting, engraving sparks, customer cases and finished products.",
       salesArea: "A front-left reception counter includes QR codes, brochures, business cards and sample boxes, supported by both large and small finished samples.",
       floorPlan: ["40 ft W × 10 ft D", "Reception counter", "TV", "Hydra 9 Gen2 directly on floor", "Cobra 10 directly on floor", "Five-machine desktop bench", "Sample table", "Open visitor flow"],
@@ -214,7 +214,7 @@ const proposalData = [
       ["Materials & Applications", "六类材质样品墙"],
       ["桌面产品陈列", "Y Series、Viper、GALVO FLEX 与应用样品"]
     ],
-    machineDisplay: "Hydra 9 Gen2 与 Cobra 10 直接落在展位地面，以地面红色定位线区分机位，不设置任何垫高岛台。五款桌面机放在一张 Performance Bench 上。尺寸示意必须统一使用同一比例尺：Hydra 9 Gen2 最大，Cobra 10 第二；XRF 宽而扁，VertiGo 窄而高；Y Series、Viper、GALVO FLEX 均小于 XRF。",
+    machineDisplay: "Hydra 9 Gen2 与 Cobra 10 直接落在展位地面，以地面红色定位线区分机位。五款桌面机放在一张 Performance Bench 上。统一比例尺：XRF 宽而扁；Y Series 仅略小于 XRF；VertiGo 与 Viper 同尺寸、同为窄高形态；GALVO FLEX 宽 320 mm、高 683 mm，最窄但高度接近 VertiGo 与 Viper。",
     video: "品牌区或样品墙旁设置明显视频屏，播放机器加工细节、美国工坊、客户案例与成品商业应用。",
     salesArea: "左前方设置 Lead Capture Bar，配置高脚椅、iPad、二维码、资料架和小样品盒；样品墙按材质分类。",
     floorPlan: ["40 ft 宽 × 10 ft 深", "SEG 灯箱背墙", "Hydra 9 Gen2 直接落地", "Cobra 10 直接落地", "5 款桌面机 Performance Bench", "电视机", "样品墙", "Lead Capture Bar", "开放客户动线"],
@@ -224,7 +224,7 @@ const proposalData = [
       budget: "Mid-range budget / Recommended / Formal U.S. market entry",
       concept: "SEG lightbox walls and a continuous performance bench create a precise, reusable laboratory with the disciplined engineering energy of a HAAS F1 pit garage. Use black, white, performance red, technical numbering and linear lighting, but show no race car, wheels, track or people.",
       zones: ["ONELASER Performance Lab", "Largest machine / Direct floor hero position", "Second-largest machine / Direct floor placement", "XRF + VertiGo + Y Series + Viper + GALVO FLEX", "Six-category material sample wall", "Y Series, Viper and GALVO FLEX with application samples"],
-      machineDisplay: "Hydra 9 Gen2 and Cobra 10 sit directly on the booth floor, identified only by red floor-positioning lines with no raised islands. The five desktop machines share one Performance Bench. Use one consistent scale: Hydra is largest, Cobra second; XRF is wide and low, VertiGo is narrow and tall; Y Series, Viper and GALVO FLEX are smaller than XRF.",
+      machineDisplay: "Hydra 9 Gen2 and Cobra 10 sit directly on the floor, identified by red positioning lines. The five desktop machines share one Performance Bench. Use one scale: XRF is wide and low; Y Series is only slightly smaller; VertiGo and Viper have identical narrow-tall proportions; GALVO FLEX is 320 mm wide and 683 mm high, making it the narrowest tall machine.",
       video: "A prominent screen near the brand zone or sample wall shows machining details, U.S. workshops, customer cases and commercial applications.",
       salesArea: "A front-left Lead Capture Bar includes stools, iPad, QR codes, literature and sample boxes. The sample wall is organized by material.",
       floorPlan: ["40 ft W × 10 ft D", "SEG lightbox backwall", "Hydra 9 Gen2 directly on floor", "Cobra 10 directly on floor", "Five-machine Performance Bench", "TV", "Sample wall", "Lead Capture Bar", "Open visitor flow"],
@@ -251,7 +251,7 @@ const proposalData = [
       ["Material Library", "抽屉式材料与成品系统"],
       ["桌面产品发布区", "Y Series、Viper、GALVO FLEX 独立发光铭牌与应用演示"]
     ],
-    machineDisplay: "Hydra 9 Gen2 与 Cobra 10 直接放在地面，以红色地面框线和顶部定向灯形成英雄机位，绝不使用垫高平台。其余五台机器全部放在 Desktop Innovation Bench 上。所有机器必须按同一比例尺绘制，并依据真实宽度和高度控制体量；未知尺寸的三款桌面机只允许表现为小于 XRF，不得随意放大。",
+    machineDisplay: "Hydra 9 Gen2 与 Cobra 10 直接放在地面，以红色地面框线和顶部定向灯形成英雄机位。其余五台全部放在 Desktop Innovation Bench 上。按同一比例尺绘制：Y Series 只比 XRF 稍小；Viper 必须与 VertiGo 同尺寸；GALVO FLEX 必须呈现为 320 mm 宽、683 mm 高的窄高机型。",
     video: "设置 75 或 85 英寸大屏 / 视频墙，播放加工近景、火花、客户交付、美国工坊、售后支持和真实成品。",
     salesArea: "左侧设置 Consultation Bar，配置高脚椅、咖啡、iPad、样品盒和销售顾问区；右侧设置抽屉式 Material Library。",
     floorPlan: ["40 ft 宽 × 10 ft 深", "巨型门头", "Hydra 9 Gen2 直接落地英雄位", "Cobra 10 直接落地英雄位", "5 款桌面机 Innovation Bench", "75/85 英寸视频墙", "Material Library", "Consultation Bar", "开放客户动线"],
@@ -261,7 +261,7 @@ const proposalData = [
       budget: "High budget / Full product lineup / Dealer recruitment",
       concept: "A high-performance industrial garage with the precision, technical order and speed of a HAAS F1 pit environment. Black and white architecture, performance-red lines, technical numbering, tool-wall cues and focused lighting create the mood without showing any race car, vehicle parts, track or people.",
       zones: ["ONELASER / U.S. Machine Company", "Largest machine / Direct floor hero position", "Second-largest machine / Direct floor hero position", "XRF + VertiGo + Y Series + Viper + GALVO FLEX", "Drawer-based materials and finished products", "Dedicated illuminated nameplates and applications for Y Series, Viper and GALVO FLEX"],
-      machineDisplay: "Hydra 9 Gen2 and Cobra 10 sit directly on the floor, framed only by red floor graphics and focused overhead lighting, never raised platforms. All five remaining machines sit on the Desktop Innovation Bench. Draw every known machine to one consistent scale; the three machines without confirmed dimensions must remain visibly smaller than XRF.",
+      machineDisplay: "Hydra 9 Gen2 and Cobra 10 sit directly on the floor, framed by red graphics and focused lighting. All five remaining machines sit on the Desktop Innovation Bench. Use one consistent scale: Y Series is only slightly smaller than XRF; Viper must match VertiGo exactly; GALVO FLEX must read as a narrow 320 mm wide and 683 mm tall machine.",
       video: "A 75- or 85-inch screen shows close-up processing, sparks, deliveries, U.S. workshops, support services and real finished products.",
       salesArea: "A Consultation Bar on the left includes stools, coffee, iPad, samples and advisor workspace. A drawer-based Material Library sits on the right.",
       floorPlan: ["40 ft W × 10 ft D", "Monumental header", "Hydra 9 Gen2 directly on floor", "Cobra 10 directly on floor", "Five-machine Innovation Bench", "75/85-inch video wall", "Material Library", "Consultation Bar", "Open visitor flow"],
@@ -310,9 +310,9 @@ const renderMachineScale = () => `
       <div class="bench-machines">
         <div class="desktop-machine xrf-machine"><span>XRF</span><small>W 1085 × H 268</small></div>
         <div class="desktop-machine vertigo-machine"><span>VertiGo</span><small>W 630 × H 710</small></div>
-        <div class="desktop-machine compact-machine y-machine"><span>Y Series</span><small>&lt; XRF</small></div>
-        <div class="desktop-machine compact-machine viper-machine"><span>Viper</span><small>&lt; XRF</small></div>
-        <div class="desktop-machine compact-machine galvo-machine"><span>GALVO FLEX</span><small>&lt; XRF</small></div>
+        <div class="desktop-machine compact-machine y-machine"><span>Y Series</span><small>SLIGHTLY &lt; XRF</small></div>
+        <div class="desktop-machine compact-machine viper-machine"><span>Viper</span><small>W 630 × H 710</small></div>
+        <div class="desktop-machine compact-machine galvo-machine"><span>GALVO FLEX</span><small>W 320 × H 683</small></div>
       </div>
       <div class="bench-top"></div>
       <div class="bench-base"><span>隐藏电源</span><span>储物抽屉</span><span>红色 LED 底边</span></div>
