@@ -243,6 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const proposalControls = Array.from(proposalSection.querySelectorAll("button")).slice(0, 3);
     const controlBar = proposalControls[0]?.parentElement;
     if (controlBar && proposalControls.length === 3) {
+      controlBar.classList.add("proposal-sticky-control");
+
       Array.from(proposalSection.children)
         .slice(Array.from(proposalSection.children).indexOf(controlBar) + 1)
         .forEach((node) => node.remove());

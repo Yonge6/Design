@@ -90,6 +90,26 @@ button[data-proposal-index]:not(.proposal-control-active):hover {
   margin-top: 2rem;
 }
 
+.proposal-sticky-control {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  margin-inline: -1px;
+  border: 1px solid #252525;
+  background: rgba(10, 10, 10, 0.94);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.proposal-sticky-control::before {
+  content: "";
+  position: absolute;
+  inset: -12px -1px auto;
+  height: 12px;
+  background: #0a0a0a;
+}
+
 .proposal-detail {
   color: #fff;
 }
@@ -458,6 +478,10 @@ button[data-proposal-index]:not(.proposal-control-active):hover {
 @media (max-width: 640px) {
   .brand-logo {
     width: min(88vw, 520px);
+  }
+
+  .proposal-sticky-control {
+    top: env(safe-area-inset-top, 0);
   }
 
   .proposal-heading,
