@@ -200,24 +200,79 @@ button[data-proposal-index]:not(.proposal-control-active):hover {
 .proposal-panel li,
 .proposal-note,
 .proposal-footer p {
-  color: #aaa;
-  font-size: 13px;
+  color: #777;
+  font-size: 11px;
   line-height: 1.7;
 }
 
 .en-copy {
   display: block;
-  margin-top: 0.35rem;
-  color: #707070;
-  font-size: 11px;
-  line-height: 1.55;
+  margin: 0 0 0.35rem;
+  color: #d6d6d6;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
   letter-spacing: 0.01em;
 }
 
 .en-inline {
   display: inline;
   margin-left: 0.55rem;
-  color: #888;
+  color: #e4e4e4;
+  font-size: 1.16em;
+  font-weight: 700;
+}
+
+.primary-en-copy,
+.secondary-zh-copy {
+  display: block;
+}
+
+.primary-en-copy {
+  color: inherit;
+  font-size: 1em;
+  font-weight: inherit;
+  line-height: 1.25;
+}
+
+.secondary-zh-copy {
+  margin-top: 0.28rem;
+  color: #707070;
+  font-size: 0.68em;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+button .secondary-zh-copy,
+td .secondary-zh-copy,
+th .secondary-zh-copy {
+  font-size: 0.72em;
+}
+
+.proposal-heading .proposal-kicker {
+  font-size: clamp(1.25rem, 2.6vw, 2rem);
+  font-family: inherit;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.proposal-heading h3 {
+  color: #777;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.english-led-pair {
+  color: #777 !important;
+  font-size: 11px !important;
+}
+
+.english-led-pair > .en-copy {
+  color: #d6d6d6;
+  font-size: 13px;
 }
 
 .value-flow {

@@ -18,6 +18,145 @@ const sharedRequirements = {
   story: ["机器", "加工过程", "成品", "商业价值"]
 };
 
+const bilingualCopy = {
+  "10 × 40 FT EXHIBITION BOOTH": ["10 × 40 FT EXHIBITION BOOTH", "10×40 英尺展会展位"],
+  "U.S. Machine Company": ["U.S. Machine Company", "美国机器公司"],
+  "Real Machines.": ["Real Machines.", "真实机器。"],
+  "Real Results.": ["Real Results.", "真实成果。"],
+  "Make Better With One": ["Make Better With One", "与 ONELASER 共创更好"],
+  "SCROLL": ["SCROLL", "向下滚动"],
+  "01 · SPATIAL LAYOUT": ["01 · SPATIAL LAYOUT", "01 · 空间布局"],
+  "10×40 FT 平面逻辑": ["10×40 FT FLOOR PLAN LOGIC", "10×40 英尺平面逻辑"],
+  "不深但很长，不要做「展馆式堆满」，要做成一条高效销售动线。": ["A long, shallow booth should become one efficient sales journey rather than a crowded equipment hall.", "展位狭长，不做设备堆满，而是形成一条高效销售动线。"],
+  "品牌区": ["BRAND ZONE", "品牌区"],
+  "桌面机工作台": ["DESKTOP MACHINE BENCH", "桌面机工作台"],
+  "Y Series / Viper / GALVO FLEX": ["Y SERIES / VIPER / GALVO FLEX", "Y Series / Viper / GALVO FLEX 桌面产品区"],
+  "左侧 · 品牌信任区": ["LEFT · BRAND TRUST ZONE", "左侧 · 品牌信任区"],
+  "中间 · 工业实力 C 位": ["CENTER · INDUSTRIAL PERFORMANCE HERO", "中间 · 工业实力主视觉位"],
+  "Hydra 9 Gen2 + Cobra 10 — \"工业实力\"的证明，占视觉中心": ["Hydra 9 Gen2 + Cobra 10 prove industrial capability and anchor the visual center.", "Hydra 9 Gen2 与 Cobra 10 作为工业实力证明，占据视觉中心。"],
+  "右侧 · 商业价值区": ["RIGHT · COMMERCIAL VALUE ZONE", "右侧 · 商业价值区"],
+  "VertiGo + XRF — 杯壶、皮革、礼品、桌面创业": ["VertiGo + XRF demonstrate drinkware, leather, gifts and desktop-business applications.", "VertiGo 与 XRF 展示杯壶、皮革、礼品和桌面创业应用。"],
+  "最右 · 桌面产品区": ["FAR RIGHT · DESKTOP PRODUCT ZONE", "最右侧 · 桌面产品区"],
+  "连续桌面机工作台 + 独立铭牌 + 应用样品，统一展示 Y Series、Viper、GALVO FLEX": ["A continuous bench, individual nameplates and application samples present Y Series, Viper and GALVO FLEX.", "使用连续桌面工作台、独立铭牌和应用样品统一展示三款桌面机。"],
+  "02 · DESIGN PROPOSALS": ["02 · DESIGN PROPOSALS", "02 · 设计方案"],
+  "三个方案": ["THREE DESIGN DIRECTIONS", "三个设计方案"],
+  "从低成本快速落地到品牌最强方案，三种预算三种策略。": ["Three budgets and three strategies, from fast low-cost deployment to maximum brand impact.", "从低成本快速落地到最强品牌展示，三种预算对应三种策略。"],
+  "方案一": ["OPTION 01", "方案一"],
+  "方案二": ["OPTION 02", "方案二"],
+  "方案三": ["OPTION 03", "方案三"],
+  "03 · COMPARISON": ["03 · COMPARISON", "03 · 方案对比"],
+  "方案对比": ["OPTION COMPARISON", "方案对比"],
+  "DIMENSION": ["DIMENSION", "对比维度"],
+  "方案一 ★": ["OPTION 01 ★", "方案一 ★"],
+  "方案二 ★": ["OPTION 02 ★", "方案二 ★"],
+  "方案三": ["OPTION 03", "方案三"],
+  "形式": ["FORMAT", "形式"],
+  "挂布 + 易拉宝 + 样品桌": ["Fabric Backwall + Banners + Sample Table", "挂布背墙 + 易拉宝 + 样品桌"],
+  "SEG 灯箱背墙 + 产品岛台": ["SEG Lightbox Backwall + Product Islands", "SEG 灯箱背墙 + 产品岛台"],
+  "三维定制展厅 + 灯光 + 样品墙": ["Custom 3D Gallery + Lighting + Sample Wall", "三维定制展厅 + 灯光 + 样品墙"],
+  "视觉效果": ["VISUAL IMPACT", "视觉效果"],
+  "基础可用": ["ESSENTIAL", "基础可用"],
+  "专业高级": ["PROFESSIONAL", "专业高级"],
+  "品牌最强": ["MAXIMUM BRAND IMPACT", "品牌影响力最强"],
+  "成本": ["COST", "成本"],
+  "低": ["LOW", "低"],
+  "中": ["MEDIUM", "中"],
+  "高": ["HIGH", "高"],
+  "复用性": ["REUSABILITY", "复用性"],
+  "推荐程度": ["RECOMMENDATION", "推荐程度"],
+  "适合试水": ["IDEAL FOR TESTING", "适合首次试水"],
+  "最推荐": ["MOST RECOMMENDED", "最推荐"],
+  "重点展会使用": ["FLAGSHIP EVENTS", "适合重点展会"],
+  "04 · RECOMMENDED": ["04 · RECOMMENDED", "04 · 最终推荐"],
+  "最终推荐：方案二": ["FINAL RECOMMENDATION: OPTION 02", "最终推荐：方案二"],
+  "10×40 ft 长条展位，最有效的是用一整面高质量背墙，把品牌、产品、样品和销售动线讲清楚。": ["For a 10×40 ft inline booth, one high-quality backwall communicates the brand, products, samples and sales journey most effectively.", "对于 10×40 英尺长条展位，一整面高质量背墙最能清晰呈现品牌、产品、样品和销售动线。"],
+  "方案二 · ONELASER Performance Lab": ["OPTION 02 · ONELASER PERFORMANCE LAB", "方案二 · ONELASER 性能实验室"],
+  "10×40 ft 是长条展位，不适合花太多钱做复杂三维结构。最有效的是用一整面高质量背墙，把品牌、产品、样品和销售动线讲清楚。": ["A 10×40 ft inline booth does not need an expensive, complex 3D build. A premium continuous backwall communicates the brand, products, samples and sales journey with greater efficiency.", "10×40 英尺属于长条展位，不必投入复杂三维结构；连续高质量背墙能更高效地讲清品牌、产品、样品和销售动线。"],
+  "40 ft SEG 灯箱背墙": ["40 FT SEG LIGHTBOX BACKWALL", "40 英尺 SEG 灯箱背墙"],
+  "Hydra / Cobra 10 英雄机位": ["HYDRA 9 GEN2 / COBRA 10 HERO POSITIONS", "Hydra 9 Gen2 / Cobra 10 英雄机位"],
+  "Outcome Sample Wall + Lead Capture Bar": ["OUTCOME SAMPLE WALL + LEAD CAPTURE BAR", "成果样品墙 + 客户信息收集吧台"],
+  "主视觉口号": ["HERO MESSAGING", "主视觉口号"],
+  "辅助销售话术": ["SALES SUPPORT MESSAGING", "辅助销售话术"],
+  "C位 · 中间偏左": ["HERO · CENTER LEFT", "主视觉位 · 中间偏左"],
+  "C位 · 与HYDRA并列": ["HERO · BESIDE HYDRA", "主视觉位 · 与 Hydra 并列"],
+  "右侧 · 商业应用区": ["RIGHT · COMMERCIAL APPLICATIONS", "右侧 · 商业应用区"],
+  "右侧 · 桌面入门": ["RIGHT · DESKTOP ENTRY", "右侧 · 桌面业务入口"],
+  "Performance Flagship": ["PERFORMANCE FLAGSHIP", "性能旗舰"],
+  "Workshop Essential": ["WORKSHOP ESSENTIAL", "工作室主力机"],
+  "Tumbler Profit Machine": ["TUMBLER PROFIT MACHINE", "杯壶盈利设备"],
+  "Desktop Entry": ["DESKTOP BUSINESS ENTRY", "桌面业务入口"],
+  "Material:": ["MATERIAL", "材料"],
+  "Process:": ["PROCESS", "工艺"],
+  "Machine:": ["MACHINE", "机器"],
+  "Business Use:": ["BUSINESS USE", "商业用途"],
+  "Stainless Steel": ["STAINLESS STEEL", "不锈钢"],
+  "Marking": ["MARKING", "打标"],
+  "Industrial tags / compliance labels": ["INDUSTRIAL TAGS / COMPLIANCE LABELS", "工业标签 / 合规标识"],
+  "Walnut Wood": ["WALNUT WOOD", "胡桃木"],
+  "Deep Engraving": ["DEEP ENGRAVING", "深度雕刻"],
+  "Custom signage / home decor": ["CUSTOM SIGNAGE / HOME DECOR", "定制标识 / 家居装饰"],
+  "Leather": ["LEATHER", "皮革"],
+  "Cutting + Engraving": ["CUTTING + ENGRAVING", "切割 + 雕刻"],
+  "Wallets / patches / gifts": ["WALLETS / PATCHES / GIFTS", "钱包 / 补丁 / 礼品"],
+  "Glass (Wine Bottle)": ["GLASS (WINE BOTTLE)", "玻璃（酒瓶）"],
+  "Surface Etching": ["SURFACE ETCHING", "表面蚀刻"],
+  "Custom drinkware / promotions": ["CUSTOM DRINKWARE / PROMOTIONS", "定制杯壶 / 促销礼品"],
+  "Industrial Laser Systems Built for Real Work": ["INDUSTRIAL LASER SYSTEMS BUILT FOR REAL WORK", "为真实工作而打造的工业激光系统"],
+  "PRECISION FIRST": ["PRECISION FIRST", "精准优先"],
+  "INNOVATION-DRIVEN": ["INNOVATION-DRIVEN", "创新驱动"],
+  "OUTCOME GUARANTEE": ["OUTCOME GUARANTEE", "结果保障"],
+  "LOCAL SUPPORT": ["LOCAL SUPPORT", "本地支持"],
+  "挂布背墙": ["FABRIC BACKWALL", "挂布背墙"],
+  "喷绘展板": ["PRINTED GRAPHICS", "喷绘展板"],
+  "易拉宝": ["ROLL-UP BANNERS", "易拉宝"],
+  "黑色样品桌": ["BLACK SAMPLE TABLE", "黑色样品桌"],
+  "折叠接待台": ["FOLDING RECEPTION COUNTER", "折叠接待台"],
+  "电视机": ["TV DISPLAY", "电视机"],
+  "SEG 灯箱背墙": ["SEG LIGHTBOX BACKWALL", "SEG 灯箱背墙"],
+  "发光 Logo": ["ILLUMINATED LOGO", "发光 Logo"],
+  "产品岛台": ["PRODUCT ISLANDS", "产品岛台"],
+  "样品墙": ["SAMPLE WALL", "样品墙"],
+  "视频屏": ["VIDEO DISPLAY", "视频屏"],
+  "巨型立体门头": ["MONUMENTAL 3D HEADER", "巨型立体门头"],
+  "3D 品牌背墙": ["3D BRAND BACKWALL", "3D 品牌背墙"],
+  "红色线性灯带": ["RED LINEAR LIGHTING", "红色线性灯带"],
+  "英雄机器平台": ["HERO MACHINE PLATFORMS", "英雄机器平台"],
+  "材料图书馆": ["MATERIAL LIBRARY", "材料图书馆"],
+  "咨询吧台": ["CONSULTATION BAR", "咨询吧台"],
+  "机器": ["MACHINES", "机器"],
+  "加工过程": ["PROCESS", "加工过程"],
+  "成品": ["OUTCOMES", "成品"],
+  "商业价值": ["BUSINESS VALUE", "商业价值"],
+  "独立旗舰平台": ["FREESTANDING FLAGSHIP PLATFORM", "独立旗舰平台"],
+  "独立工作室平台": ["FREESTANDING WORKSHOP PLATFORM", "独立工作室平台"],
+  "其次": ["SECOND LARGEST", "桌面机中第二体量"],
+  "隐藏电源": ["CONCEALED POWER", "隐藏电源"],
+  "储物抽屉": ["STORAGE DRAWERS", "储物抽屉"],
+  "红色 LED 底边": ["RED LED BASE", "红色 LED 底边"]
+};
+
+const applyBilingualHierarchy = (root = document) => {
+  root.querySelectorAll(".en-copy").forEach((english) => {
+    english.parentElement?.classList.add("english-led-pair");
+  });
+
+  root.querySelectorAll("h1,h2,h3,h4,p,button,span,td,th,text,strong,small").forEach((element) => {
+    if (element.closest(".proposal-host") && element.querySelector(".en-copy, .en-inline")) return;
+    if (element.children.length || element.dataset.bilingual === "true") return;
+
+    const key = element.textContent.trim();
+    const copy = bilingualCopy[key];
+    if (!copy) return;
+
+    if (element.namespaceURI?.includes("svg")) {
+      element.textContent = `${copy[0]} / ${copy[1]}`;
+    } else {
+      element.innerHTML = `<span class="primary-en-copy">${copy[0]}</span><span class="secondary-zh-copy">${copy[1]}</span>`;
+    }
+    element.dataset.bilingual = "true";
+  });
+};
+
 const proposalData = [
   {
     name: "Budget Booth",
@@ -259,6 +398,10 @@ const renderProposal = (proposal) => `
 
 document.addEventListener("DOMContentLoaded", () => {
   document.body.innerHTML = document.body.innerHTML
+    .replaceAll("最右 · 新品预留", "最右 · 桌面产品区")
+    .replaceAll("模块化展示台 + 立牌 + 样品托盘，后期换产品不用重做", "连续桌面机工作台 + 独立铭牌 + 应用样品，统一展示 Y Series、Viper、GALVO FLEX")
+    .replaceAll("VERTIGO/X", "DESKTOP BENCH")
+    .replaceAll("VertiGo/X", "桌面机工作台")
     .replaceAll("Hydra Gen2", "Hydra 9 Gen2")
     .replaceAll("HYDRA GEN2", "HYDRA 9 GEN2")
     .replaceAll("Cobra", "Cobra 10")
@@ -321,6 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
           button.style.color = isSelected ? "#fff" : "#666";
         });
         detailHost.innerHTML = renderProposal(proposalData[selectedIndex]);
+        applyBilingualHierarchy(detailHost);
       };
 
       proposalControls.forEach((button, index) => {
@@ -331,6 +475,8 @@ document.addEventListener("DOMContentLoaded", () => {
       selectProposal(1);
     }
   }
+
+  applyBilingualHierarchy(document.body);
 
   if (!("IntersectionObserver" in window)) {
     sections.forEach((section) => section.classList.add("visible"));
