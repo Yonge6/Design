@@ -291,6 +291,16 @@
       gap: 14px;
     }
 
+    .load-more-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0 2px;
+    }
+
+    .load-more-wrap[hidden] {
+      display: none;
+    }
+
     .random-panel {
       padding: 14px;
       display: grid;
@@ -855,6 +865,9 @@
     </section>
 
     <section class="records" id="records" aria-live="polite"></section>
+    <div class="load-more-wrap" id="loadMoreWrap" hidden>
+      <button class="btn primary" id="loadMoreBtn" type="button">点击加载更多</button>
+    </div>
     <div class="empty" id="emptyState">还没有记录。点击“新增记录”添加第一组三句话。</div>
     <section class="manage-panel" aria-label="记录管理">
       <div class="toolbar">
@@ -2827,6 +2840,8 @@
 
     const recordsEl = document.querySelector("#records");
     const emptyStateEl = document.querySelector("#emptyState");
+    const loadMoreWrap = document.querySelector("#loadMoreWrap");
+    const loadMoreBtn = document.querySelector("#loadMoreBtn");
     const dialog = document.querySelector("#recordDialog");
     const form = document.querySelector("#recordForm");
     const importFile = document.querySelector("#importFile");
@@ -2851,6 +2866,7 @@
     let voices = [];
     let activeShareQuote = null;
     let activeRandomQuote = null;
+    let visibleQuoteLimit = 20;
 
     function loadRecords() {
       try {
@@ -3254,12 +3270,25 @@
       }).format(new Date(value));
     }
 
+    function visibleRecords(sorted) {
+      let remaining = visibleQuoteLimit;
+      return sorted.flatMap((record) => {
+        if (remaining <= 0) return [];
+        const quotes = record.quotes.slice(0, remaining);
+        remaining -= quotes.length;
+        return [{ ...record, quotes }];
+      });
+    }
+
     function render() {
       const sorted = sortedRecords();
+      const visible = visibleRecords(sorted);
+      const totalQuotes = sorted.reduce((sum, record) => sum + record.quotes.length, 0);
       recordsEl.innerHTML = "";
       emptyStateEl.style.display = sorted.length ? "none" : "block";
+      loadMoreWrap.hidden = visibleQuoteLimit >= totalQuotes;
 
-      sorted.forEach((record) => {
+      visible.forEach((record) => {
         const article = document.createElement("article");
         article.className = "record";
 
@@ -3689,6 +3718,7 @@
         }))
       };
       records = [next, ...records];
+      visibleQuoteLimit = 20;
       saveRecords();
       trackEvent("add", formatTime(next.time));
       render();
@@ -3713,6 +3743,7 @@
           const imported = JSON.parse(reader.result);
           if (!Array.isArray(imported)) throw new Error("JSON must be an array");
           records = imported;
+          visibleQuoteLimit = 20;
           saveRecords();
           trackEvent("import", `${records.length} 组记录`);
           render();
@@ -3726,6 +3757,7 @@
     function resetRecords() {
       if (!confirm("确定重置为初始记录吗？")) return;
       records = seedRecords;
+      visibleQuoteLimit = 20;
       saveRecords();
       trackEvent("reset", `${seedRecords.length} 组初始记录`);
       render();
@@ -3740,6 +3772,10 @@
     document.querySelector("#exportBtn").addEventListener("click", exportRecords);
     document.querySelector("#importBtn").addEventListener("click", () => importFile.click());
     document.querySelector("#resetBtn").addEventListener("click", resetRecords);
+    loadMoreBtn.addEventListener("click", () => {
+      visibleQuoteLimit += 20;
+      render();
+    });
     document.querySelector("#saveShareImageBtn").addEventListener("click", saveShareImage);
     document.querySelector("#copyQuoteBtn").addEventListener("click", () => {
       trackEvent("copy", activeShareQuote?.source || "");
