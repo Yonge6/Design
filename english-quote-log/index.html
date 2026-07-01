@@ -579,8 +579,9 @@
       border: 2px solid var(--ink);
       border-radius: var(--radius);
       background:
-        linear-gradient(145deg, rgba(239,195,90,0.26), transparent 35%),
-        linear-gradient(315deg, rgba(47,109,85,0.18), transparent 38%),
+        radial-gradient(circle at 16% 12%, rgba(239,195,90,0.34), transparent 22%),
+        linear-gradient(145deg, rgba(238,247,255,0.82), transparent 34%),
+        linear-gradient(315deg, rgba(47,109,85,0.20), transparent 42%),
         var(--paper-strong);
       box-shadow: 7px 7px 0 var(--ink);
       padding: 30px;
@@ -625,11 +626,25 @@
 
     .share-bottom {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       align-items: end;
       gap: 18px;
       border-top: 2px solid var(--ink);
       padding-top: 18px;
+    }
+
+    .share-note {
+      max-width: 310px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .share-note strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      margin-bottom: 3px;
     }
 
     .share-qr {
@@ -797,6 +812,10 @@
       .share-bottom {
         align-items: end;
       }
+
+      .share-note {
+        max-width: 220px;
+      }
     }
   </style>
 </head>
@@ -928,6 +947,10 @@
           <p class="share-source" id="shareSource"></p>
         </div>
         <div class="share-bottom">
+          <div class="share-note">
+            <strong>每天四次，三句英语。</strong>
+            <span>Read, listen, and collect a little English every day.</span>
+          </div>
           <img class="share-qr" id="shareQr" alt="网页链接二维码">
         </div>
       </div>
@@ -963,7 +986,7 @@
       baseUrl: "https://api.counterapi.dev/v1",
       namespace: "elian-english-quote-log"
     };
-    const PAGE_URL = "https://yonge6.github.io/Design/english-quote-log/";
+    const PAGE_URL = "https://xiazishuo.com/english-quote-log/";
     const analyticsLabels = {
       visit: "访问",
       play: "朗读",
@@ -3528,10 +3551,16 @@
 
       ctx.fillStyle = "#fffaf0";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "rgba(239,195,90,0.26)";
-      ctx.fillRect(0, 0, canvas.width, 210);
-      ctx.fillStyle = "rgba(47,109,85,0.14)";
-      ctx.fillRect(canvas.width - 230, canvas.height - 250, 230, 250);
+      const topGlow = ctx.createRadialGradient(170, 140, 20, 170, 140, 330);
+      topGlow.addColorStop(0, "rgba(239,195,90,0.42)");
+      topGlow.addColorStop(1, "rgba(239,195,90,0)");
+      ctx.fillStyle = topGlow;
+      ctx.fillRect(0, 0, canvas.width, 430);
+      const bottomGlow = ctx.createLinearGradient(760, 1030, canvas.width, canvas.height);
+      bottomGlow.addColorStop(0, "rgba(47,109,85,0)");
+      bottomGlow.addColorStop(1, "rgba(47,109,85,0.22)");
+      ctx.fillStyle = bottomGlow;
+      ctx.fillRect(650, 900, 430, 450);
 
       ctx.strokeStyle = "#151515";
       ctx.lineWidth = 8;
@@ -3563,6 +3592,13 @@
       ctx.moveTo(90, 1154);
       ctx.lineTo(990, 1154);
       ctx.stroke();
+
+      ctx.fillStyle = "#151515";
+      ctx.font = "700 28px Avenir Next, PingFang SC, sans-serif";
+      ctx.fillText("每天四次，三句英语。", 90, 1212);
+      ctx.fillStyle = "#6b6257";
+      ctx.font = "500 24px Avenir Next, PingFang SC, sans-serif";
+      wrapCanvasText(ctx, "Read, listen, and collect a little English every day.", 90, 1252, 610, 34, 2);
 
       const qrImage = await loadImage(makeQrDataUrl(PAGE_URL, 8));
       ctx.fillStyle = "#ffffff";
